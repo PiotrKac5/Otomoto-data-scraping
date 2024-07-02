@@ -29,10 +29,28 @@ class scraper:
         self.filters = filters
         self.website = "https://www.otomoto.pl/osobowe"
 
-    def scrape_pages(self):
+    def scrape_pages(self, number_of_pages):
+        self.get_website()
         cars = []
-        number_of_pages = 0
+        for i in range(1, number_of_pages+1):
+            curr_website = self.website + f"&page={i}"
+            new_cars = self.get_cars_from_current_page(curr_website)
+            if new_cars:
+                cars.append(new_cars)
+        return cars
 
+    def get_cars_from_current_page(self, curr_website):
+        try:
+            response = requests.get(curr_website, headers=self.headers).text
+            soup = BeautifulSoup(response, "html.parser")
+            cars = self.extract_cars(soup)
+            return cars
+        except Exception as e:
+            print(f"Problem with website: {curr_website}, reason: {e}")
+            return []
+
+    def extract_cars(self, soup):
+        pass
 
     def get_website(self):
         first = True
