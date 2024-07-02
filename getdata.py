@@ -4,6 +4,8 @@ import csv
 
 
 class Car:
+    link: str
+    full_name: str
     brand: str
     model: str
     year: int
@@ -48,9 +50,18 @@ class scraper:
         except Exception as e:
             print(f"Problem with website: {curr_website}, reason: {e}")
             return []
+        
 
     def extract_cars(self, soup):
-        pass
+        offers = soup.find("div", class_="ooa-r53y0q esqdut111")
+        cars = offers.find_all("article")
+        cars_list = []
+        for car in cars:
+            try:
+                pass
+            except Exception as e:
+                print(f"Error msg: {e}")
+        return cars_list
 
     def get_website(self):
         first = True
@@ -94,7 +105,8 @@ class scraper:
 
 
 
-# F = {'brand': 'Ford', 'model':'focus', 'year': [2007, 2015], 'fuel_type':'petrol', 'price':[10000, 20000], 'mileage':[100000, 200000], 'engine_capacity':[1250, 1500]}
-# x = scraper(F)
+F = {'brand': 'Ford', 'model':'focus', 'year': [2007, 2015], 'fuel_type':'petrol', 'price':[10000, 20000], 'mileage':[100000, 200000], 'engine_capacity':[1250, 1500]}
+x = scraper(F)
 # x.get_website()
 
+print(x.scrape_pages(1))
