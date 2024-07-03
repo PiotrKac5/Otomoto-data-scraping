@@ -1,18 +1,19 @@
 import requests
 from bs4 import BeautifulSoup
+from dataclasses import dataclass
 import csv
 
-
+@dataclass
 class Car:
     link: str
-    full_name: str
-    brand: str
-    model: str
-    year: int
+    # full_name: str
+    # brand: str
+    # model: str
+    year: str
     mileage: str
     engine_capacity: str
     fuel_type: str
-    price: int
+    price: str
 
 
 class scraper:
@@ -50,7 +51,7 @@ class scraper:
         except Exception as e:
             print(f"Problem with website: {curr_website}, reason: {e}")
             return []
-        
+
 
     def extract_cars(self, soup):
         offers = soup.find("div", class_="ooa-r53y0q esqdut111")
@@ -58,7 +59,30 @@ class scraper:
         cars_list = []
         for car in cars:
             try:
-                pass
+                link = car.find("h1", class_="e1vic7eh9 ooa-1ed90th er34gjf0").find("a", href=True).get("href")
+
+                engine_capacity = car.find("p", class_="e1vic7eh10 ooa-1tku07r er34gjf0").text.strip()[:9]
+
+                year = (car.find("dd", class_="ooa-1omlbtp e1vic7eh13", attrs={"data-parameter":"year"}).text.strip())
+
+                fuel_type = car.find("dd", class_="ooa-1omlbtp e1vic7eh13", attrs={"data-parameter": "fuel_type"}).text.strip()
+
+                mileage = car.find("dd", class_="ooa-1omlbtp e1vic7eh13", attrs={"data-parameter": "mileage"}).text.strip()
+
+                price = (car.find("h3", class_="e1vic7eh16 ooa-1n2paoq er34gjf0").text.strip())
+
+                cars_list.append(
+                    Car(
+                        link=link,
+                        year=year,
+                        mileage=mileage,
+                        engine_capacity=engine_capacity,
+                        fuel_type=fuel_type,
+                        price=price,
+                    )
+                )
+
+
             except Exception as e:
                 print(f"Error msg: {e}")
         return cars_list
