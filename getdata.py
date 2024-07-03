@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 import csv
 
 @dataclass
@@ -39,7 +39,7 @@ class scraper:
             curr_website = self.website + f"&page={i}"
             new_cars = self.get_cars_from_current_page(curr_website)
             if new_cars:
-                cars.append(new_cars)
+                cars += (new_cars)
         return cars
 
     def get_cars_from_current_page(self, curr_website):
@@ -127,10 +127,32 @@ class scraper:
             self.website += f"search%5Bfilter_float_price%3Afrom%5D={self.filters['price'][0]}&search%5Bfilter_float_price%3Ato%5D={self.filters['price'][1]}"
 
 
+def write_to_csv(cars):
+    with open("cars.csv", mode="w") as f:
+        fieldnames = [
+            "link",
+            # "full_name",
+            "year",
+            "mileage",
+            "engine_capacity",
+            "fuel_type",
+            "price",
+        ]
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        for car in cars:
+            writer.writerow(asdict(car))
 
 
-F = {'brand': 'Ford', 'model':'focus', 'year': [2007, 2015], 'fuel_type':'petrol', 'price':[10000, 20000], 'mileage':[100000, 200000], 'engine_capacity':[1250, 1500]}
-x = scraper(F)
-# x.get_website()
+if __name__ == "__main__":
+    F = {'brand': 'Ford', 'model': 'focus', 'year': [2007, 2015], 'fuel_type': 'petrol', 'price': [10000, 20000],
+         'mileage': [100000, 200000], 'engine_capacity': [1250, 1500]}
+    x = scraper(F)
+    # x.get_website()
 
-print(x.scrape_pages(1))
+    # print(x.scrape_pages(1))
+    write_to_csv(x.scrape_pages(5))
+
+
+
+
