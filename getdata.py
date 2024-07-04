@@ -145,13 +145,14 @@ def write_to_csv(cars):
 
 
 if __name__ == "__main__":
-    F = {'brand': 'Ford', 'model': 'focus', 'year': [2007, 2015], 'fuel_type': 'petrol', 'price': [10000, 20000],
-         'mileage': [100000, 200000], 'engine_capacity': [1250, 1500]}
+    # F = {'brand': 'Ford', 'model': 'focus', 'year': [2007, 2015], 'fuel_type': 'petrol', 'price': [10000, 20000],
+    #      'mileage': [100000, 200000], 'engine_capacity': [1250, 1500]}
+    F = {'brand': 'Ford', 'model': 'focus', 'year': [2000, 2020]}
     x = scraper(F)
     # x.get_website()
 
     # print(x.scrape_pages(1))
-    write_to_csv(x.scrape_pages(5))
+    write_to_csv(x.scrape_pages(108))
 
 
 
