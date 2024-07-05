@@ -6,9 +6,6 @@ import csv
 @dataclass
 class Car:
     link: str
-    # full_name: str
-    # brand: str
-    # model: str
     year: str
     mileage: str
     engine_capacity: str
@@ -131,7 +128,6 @@ def write_to_csv(cars):
     with open("cars.csv", mode="w") as f:
         fieldnames = [
             "link",
-            # "full_name",
             "year",
             "mileage",
             "engine_capacity",
@@ -146,13 +142,12 @@ def write_to_csv(cars):
 
 if __name__ == "__main__":
     F = {'brand': 'Ford', 'model': 'focus', 'year': [2007, 2015], 'fuel_type': 'petrol', 'price': [10000, 20000],
-         'mileage': [100000, 200000], 'engine_capacity': [1250, 1500]}
+         'mileage': [100000, 200000], 'engine_capacity': [1000, 2500]} #type criteria in here
     # F = {'year': [2005, 2015]}
-    x = scraper(F)
-    # x.get_website()
 
-    # print(x.scrape_pages(1))
-    write_to_csv(x.scrape_pages(10))
+    x = scraper(F)
+
+    write_to_csv(x.scrape_pages(15))
 
 
 
