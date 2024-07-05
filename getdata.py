@@ -141,10 +141,28 @@ def write_to_csv(cars):
 
 
 if __name__ == "__main__":
-    F = {'brand': 'Ford', 'model': 'focus', 'year': [2007, 2015], 'fuel_type': 'petrol', 'price': [10000, 20000],
-         'mileage': [100000, 200000], 'engine_capacity': [1000, 2500]} #type criteria in here
-    # F = {'year': [2005, 2015]}
+    # F = {'brand': 'Ford', 'model': 'focus', 'year': [2007, 2015], 'fuel_type': 'petrol', 'price': [10000, 20000],
+    #      'mileage': [100000, 200000], 'engine_capacity': [1000, 2500]} #example criteria
+    criteria = ['year', 'price', 'mileage', 'engine_capacity']
+    criteria2 = ['brand', 'model', 'fuel_type']
+    F = {}
+    for criterion in criteria2:
+        print("Do you want to sort cars by", criterion, "? YES/NO")
+        s = input()
+        s = s.upper()
+        if s == "YES":
+            value = input("Value: ")
+            F[s] = value
+    for criterion in criteria:
+        print("Do you want to sort cars by", criterion, "? YES/NO")
+        s = input()
+        s = s.upper()
+        if s == "YES":
+            minval = int(input("Min value: "))
+            maxval = int(input("Max value: "))
+            F[s] = [minval, maxval]
 
+    number_of_pages = int(input("How many pages do you want to scrape?"))
     x = scraper(F)
 
     write_to_csv(x.scrape_pages(15))
